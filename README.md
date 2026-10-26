@@ -2,25 +2,22 @@
 this is a python program to convert structured data into dictionaries 
 # struct_to_dict
 
-A simple Python helper that converts a ctypes `Structure` into a dictionary.
+A small Python helper that converts a ctypes `Structure` into a dictionary.
 
 ## Description
 
-This project provides a lightweight utility for turning a ctypes `Structure` into a standard Python dictionary. The `struct_to_dict.py` script reads the structure's fields and returns their names and values as key-value pairs, which makes the data easy to print, serialize or inspect.
+`struct_to_dict.py` defines `struct_to_dict(s)`, which reads the `_fields_` of a ctypes `Structure` and returns a dictionary of field names and values. The file also includes a short example using a `Point` structure.
 
 ## Features
 
 - Converts a ctypes `Structure` to a dictionary
 - Uses field names as dictionary keys
 - Works with any ctypes `Structure`
-- Supports nested structures
-- Raises a clear error for invalid input
-- Importable as a module without side effects
-- No external dependencies
+- No external dependencies (uses the standard library `ctypes` module)
 
 ## Requirements
 
-- Python 3.6 or higher
+- Python 3
 
 ## Installation
 
@@ -46,13 +43,7 @@ Run the script from your terminal:
 python struct_to_dict.py
 ```
 
-To use the function in your own code:
-
-```python
-from struct_to_dict import struct_to_dict
-
-print(struct_to_dict(my_structure))
-```
+The script creates a `Point` structure and prints it as a dictionary.
 
 ## Example
 
@@ -61,6 +52,9 @@ from ctypes import Structure, c_int, c_float
 
 class Point(Structure):
     _fields_ = [("x", c_int), ("y", c_int), ("z", c_float)]
+
+def struct_to_dict(s):
+    return {name: getattr(s, name) for name, _ in s._fields_}
 
 p = Point(1, 2, 3.5)
 print(struct_to_dict(p))
@@ -78,13 +72,6 @@ Output:
 .
 ├── struct_to_dict.py
 ├── README.md
-└── LICENSE
+└── audit.md
 ```
 
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Feel free to open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
